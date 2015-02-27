@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "salt" do |salt|
+    salt.vm.box = "ubuntu/trusty64"
+    salt.vm.hostname = "salt"
+    salt.vm.network "private_network", ip: "192.168.5.10"
+    salt.vm.provision :shell, path: "bootstrap-salt.sh"
+  end
+  config.vm.define "minion" do |minion|
+    minion.vm.box = "ubuntu/trusty64"
+    minion.vm.hostname = "minion"
+    minion.vm.network "private_network", ip: "192.168.5.11"
+    minion.vm.provision :shell, path: "bootstrap-minion.sh"
+  end
+  config.vm.post_up_message = "Welcome to the DevOps Library SaltStack demo.  Use the command 'vagrant ssh salt' to access the salt-master or 'vagrant ssh minion' to access the minion."
+end
