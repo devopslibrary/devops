@@ -1,0 +1,18 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "jenkinsmaster" do |salt|
+    salt.vm.box = "ubuntu/trusty64"
+    salt.vm.hostname = "jenkins"
+    salt.vm.network "private_network", ip: "192.168.5.12"
+    salt.vm.provision :shell, path: "bootstrap.sh"
+  end
+  config.vm.define "winslave" do |winslave|
+    winslave.vm.box = "lmayorga1980/windows-2012r2"
+    winslave.vm.communicator = "winrm"
+    winslave.vm.network "forwarded_port", guest: 3389, host: 53389
+    winslave.vm.hostname = "winslave"
+    winslave.vm.network "private_network", ip: "192.168.5.13"
+    config.vm.provision :shell, inline: "puppet module install --force rismoney/chocolatey"
+    config.vm.provision "puppet"
+  end
+  config.vm.post_up_message = "Welcome to the DevOps Library Jenkins demo.  Use the command 'vagrant ssh' to SSH into Jenkins, or visit http://192.168.5.12 to see the Jenkins WebUI!"
+end

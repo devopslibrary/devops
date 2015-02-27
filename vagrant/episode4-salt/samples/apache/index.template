@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>Salt Test</title>
+  </head>
+  <body>
+    <h1>I am a server that's part of the {{grains['environment']}} environment.</h1>
+    <h2>Here are some of my server stats!</h2>
+    <ul>
+      <li>Memory: {{ grains['mem_total'] }} MB</li>
+    </ul>
+  </body>
+</html>

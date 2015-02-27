@@ -1,0 +1,1 @@
+Add-Content -Encoding UTF8  C:\Windows\system32\drivers\etc\hosts "`r`n192.168.5.10 salt"

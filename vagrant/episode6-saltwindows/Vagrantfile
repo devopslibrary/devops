@@ -1,0 +1,17 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "salt" do |salt|
+    salt.vm.box = "ubuntu/trusty64"
+    salt.vm.hostname = "salt"
+    salt.vm.network "private_network", ip: "192.168.5.10"
+    salt.vm.provision :shell, path: "bootstrap-salt.sh"
+  end
+  config.vm.define "winminion" do |winminion|
+    winminion.vm.box = "lmayorga1980/windows-2012r2"
+    winminion.vm.communicator = "winrm"
+    winminion.vm.network "forwarded_port", guest: 3389, host: 53389
+    winminion.vm.hostname = "winminion"
+    winminion.vm.network "private_network", ip: "192.168.5.11"
+    winminion.vm.provision "shell", path: "bootstrap-winminion.ps1"
+  end
+  config.vm.post_up_message = "Welcome to the DevOps Library SaltStack demo.  Use the command 'vagrant ssh salt' to access the salt-master or 'vagrant ssh minion' to access the minion."
+end
