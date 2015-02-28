@@ -1,0 +1,1 @@
+Write-Host "We hope you like our videos!"
